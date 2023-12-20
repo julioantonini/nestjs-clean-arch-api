@@ -1,13 +1,17 @@
+import { AnswersRepository } from '../repositories/answers-repository';
 import { AnswerQuestionUseCase } from './answer-question';
 
 describe('Answer Question Use Case', () => {
   let sut: AnswerQuestionUseCase;
   beforeEach(() => {
-    sut = new AnswerQuestionUseCase();
+    const fakeAnswersRepository: AnswersRepository = {
+      create: jest.fn(),
+    };
+    sut = new AnswerQuestionUseCase(fakeAnswersRepository);
   });
 
-  it('should create an answer', () => {
-    const answer = sut.execute({
+  it('should create an answer', async () => {
+    const answer = await sut.execute({
       questionId: '1',
       authorId: '2',
       content: 'Nova resposta',
