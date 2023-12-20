@@ -17,6 +17,6 @@ describe('Answer Question Use Case', () => {
       content: 'Nova resposta',
     });
 
-    expect(answer.content).toBe('Nova resposta');
+    expect(answer.contet).toBe('Nova resposta');
   });
 });
