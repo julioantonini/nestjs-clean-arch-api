@@ -8,7 +8,7 @@ export class BaseEntity<T> {
     return this._id;
   }
 
-  constructor(props: any, id?: UniqueEntityId) {
+  constructor(props: T, id?: UniqueEntityId) {
     this.props = props;
     this._id = id ?? new UniqueEntityId();
   }
