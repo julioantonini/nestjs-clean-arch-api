@@ -21,5 +21,9 @@
     "strict":true,
     "noImplicitAny": true,
     "strictPropertyInitialization": true,
-  }
+  }, 
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]  
 }
