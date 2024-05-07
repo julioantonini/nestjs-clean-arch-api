@@ -16,31 +16,31 @@ interface IQuestionProps {
 }
 
 export class Question extends BaseEntity<IQuestionProps> {
-  get authorId() {
+  get authorId(): UniqueEntityId {
     return this.props.authorId;
   }
 
-  get title() {
+  get title(): string {
     return this.props.title;
   }
 
-  get content() {
+  get content(): string {
     return this.props.content;
   }
 
-  get slug() {
+  get slug(): Slug {
     return this.props.slug;
   }
 
-  get bestAnswerId() {
+  get bestAnswerId(): UniqueEntityId | undefined {
     return this.props.bestAnswerId;
   }
 
-  get createdAt() {
+  get createdAt(): Date {
     return this.props.createdAt;
   }
 
-  get updatedAt() {
+  get updatedAt(): Date | undefined {
     return this.props.updatedAt;
   }
 
@@ -48,7 +48,7 @@ export class Question extends BaseEntity<IQuestionProps> {
     return dayjs().diff(this.createdAt, 'days') <= 3;
   }
 
-  get excerpt() {
+  get excerpt(): string {
     return this.content.substring(0, 120).trim().concat('...');
   }
 
@@ -68,14 +68,11 @@ export class Question extends BaseEntity<IQuestionProps> {
     this.touch();
   }
 
-  private touch() {
+  private touch(): void {
     this.props.updatedAt = new Date();
   }
 
-  static create(
-    props: Optional<IQuestionProps, 'createdAt' | 'slug'>,
-    id: UniqueEntityId,
-  ) {
+  static create(props: Optional<IQuestionProps, 'createdAt' | 'slug'>, id: UniqueEntityId): Question {
     const question = new Question(
       {
         ...props,

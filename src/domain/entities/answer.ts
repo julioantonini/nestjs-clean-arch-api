@@ -11,27 +11,27 @@ interface IAnswerProps {
 }
 
 export class Answer extends BaseEntity<IAnswerProps> {
-  get authorId() {
+  get authorId(): UniqueEntityId {
     return this.props.authorId;
   }
 
-  get questionId() {
+  get questionId(): UniqueEntityId {
     return this.props.questionId;
   }
 
-  get content() {
+  get content(): string {
     return this.props.content;
   }
 
-  get createdAt() {
+  get createdAt(): Date {
     return this.props.createdAt;
   }
 
-  get updatedAt() {
+  get updatedAt(): Date | undefined {
     return this.props.updatedAt;
   }
 
-  get excerpt() {
+  get excerpt(): string {
     return this.content.substring(0, 120).trim().concat('...');
   }
 
@@ -40,11 +40,11 @@ export class Answer extends BaseEntity<IAnswerProps> {
     this.touch();
   }
 
-  private touch() {
+  private touch(): void {
     this.props.updatedAt = new Date();
   }
 
-  static create(props: Optional<IAnswerProps, 'createdAt'>, id?: UniqueEntityId) {
+  static create(props: Optional<IAnswerProps, 'createdAt'>, id?: UniqueEntityId): Answer {
     const answer = new Answer({ ...props, createdAt: new Date() }, id);
     return answer;
   }

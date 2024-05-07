@@ -12,7 +12,7 @@ interface AnswerQuestionUseCaseRequest {
 export class AnswerQuestionUseCase {
   constructor(private readonly answerRepository: AnswersRepository) {}
 
-  public async execute({ authorId, questionId, content }: AnswerQuestionUseCaseRequest) {
+  public async execute({ authorId, questionId, content }: AnswerQuestionUseCaseRequest): Promise<Answer> {
     const answer = Answer.create({
       content,
       authorId: new UniqueEntityId(authorId),
