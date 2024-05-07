@@ -1,10 +1,10 @@
-import { AnswersRepository } from '../repositories/answers-repository';
+import { IAnswersRepository } from '../repositories/answers-repository';
 import { AnswerQuestionUseCase } from './answer-question';
 
 describe('Answer Question Use Case', () => {
   let sut: AnswerQuestionUseCase;
   beforeEach(() => {
-    const fakeAnswersRepository: AnswersRepository = {
+    const fakeAnswersRepository: IAnswersRepository = {
       create: jest.fn(),
     };
     sut = new AnswerQuestionUseCase(fakeAnswersRepository);
