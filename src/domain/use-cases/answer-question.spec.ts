@@ -14,9 +14,9 @@ describe('Answer Question Use Case', () => {
     const answer = await sut.execute({
       questionId: '1',
       authorId: '2',
-      content: 'Nova resposta',
+      content: 'New answer',
     });
 
-    expect(answer.contet).toBe('Nova resposta');
+    expect(answer.content).toBe('New answer');
   });
 });
