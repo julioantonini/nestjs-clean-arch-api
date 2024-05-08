@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 
 import { Slug } from '../enterprise/entities/value-objects/slug';
 
-interface IQuestionProps {
+export interface IQuestionProps {
   authorId: UniqueEntityId;
   title: string;
   content: string;
