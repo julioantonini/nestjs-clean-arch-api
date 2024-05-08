@@ -1,5 +1,5 @@
 import { UniqueEntityId } from '@/core/entities/unique-entity-id';
-import { IQuestionProps, Question } from '@/domain/forum/entities/question';
+import { IQuestionProps, Question } from '@/domain/forum/enterprise/entities/question';
 import { faker } from '@faker-js/faker';
 
 export class makeQuestionMockFactory {

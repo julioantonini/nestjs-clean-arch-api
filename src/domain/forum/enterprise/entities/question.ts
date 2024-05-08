@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 
 import { Slug } from './value-objects/slug';
 
-interface IQuestionProps {
+export interface IQuestionProps {
   authorId: UniqueEntityId;
   title: string;
   content: string;
@@ -72,7 +72,7 @@ export class Question extends BaseEntity<IQuestionProps> {
     this.props.updatedAt = new Date();
   }
 
-  static create(props: Optional<IQuestionProps, 'createdAt' | 'slug'>, id: UniqueEntityId): Question {
+  static create(props: Optional<IQuestionProps, 'createdAt' | 'slug'>, id?: UniqueEntityId): Question {
     const question = new Question(
       {
         ...props,
