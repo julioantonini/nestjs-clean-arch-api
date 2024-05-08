@@ -1,22 +1,25 @@
-import { IQuestionsRepository } from '../repositories/questions-repository';
+import { InMemoryQuestionsRepository } from '@/test/repositories/in-memory-questions-repository';
+
 import { CreateQuestionUseCase } from './create-question';
 
 describe('Create Question Use Case', () => {
   let sut: CreateQuestionUseCase;
+  let inMemoryQuestionsRepository: InMemoryQuestionsRepository;
+
   beforeEach(() => {
-    const fakeQuestionsRepository: IQuestionsRepository = {
-      create: jest.fn(),
-    };
-    sut = new CreateQuestionUseCase(fakeQuestionsRepository);
+    inMemoryQuestionsRepository = new InMemoryQuestionsRepository();
+    sut = new CreateQuestionUseCase(inMemoryQuestionsRepository);
   });
 
-  it('should create a question', async () => {
-    const { question } = await sut.execute({
-      authorId: '2',
-      title: 'Question title',
-      content: 'question content',
-    });
+  describe('Create Question', () => {
+    it('should create a question', async () => {
+      const { question } = await sut.execute({
+        authorId: '2',
+        title: 'Question title',
+        content: 'question content',
+      });
 
-    expect(question.id).toBeTruthy();
+      expect(question.id).toBeTruthy();
+    });
   });
 });

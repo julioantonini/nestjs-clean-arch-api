@@ -9,10 +9,18 @@ interface IAnswerQuestionUseCaseRequest {
   content: string;
 }
 
+interface IAnswerQuestionUseCaseResponse {
+  answer: Answer;
+}
+
 export class AnswerQuestionUseCase {
   constructor(private readonly answerRepository: IAnswersRepository) {}
 
-  public async execute({ authorId, questionId, content }: IAnswerQuestionUseCaseRequest): Promise<Answer> {
+  public async execute({
+    authorId,
+    questionId,
+    content,
+  }: IAnswerQuestionUseCaseRequest): Promise<IAnswerQuestionUseCaseResponse> {
     const answer = Answer.create({
       content,
       authorId: new UniqueEntityId(authorId),
@@ -20,6 +28,6 @@ export class AnswerQuestionUseCase {
     });
 
     await this.answerRepository.create(answer);
-    return answer;
+    return { answer };
   }
 }
