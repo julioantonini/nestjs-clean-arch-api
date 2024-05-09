@@ -2,7 +2,7 @@ import { IQuestionsRepository } from '@/domain/forum/application/repositories/qu
 import { Question } from '@/domain/forum/enterprise/entities/question';
 
 export class InMemoryQuestionsRepository implements IQuestionsRepository {
-  private items: Question[] = [];
+  items: Question[] = [];
 
   async findById(id: string): Promise<Question | undefined> {
     return this.items.find(item => item.id.toString() === id);
@@ -14,6 +14,11 @@ export class InMemoryQuestionsRepository implements IQuestionsRepository {
 
   async create(question: Question): Promise<void> {
     this.items.push(question);
+  }
+
+  async update(question: Question): Promise<void> {
+    const currentIdx = this.items.findIndex(item => item.id.toString() === question.id.toString());
+    this.items[currentIdx] = question;
   }
 
   async deleteById(id: string): Promise<void> {
