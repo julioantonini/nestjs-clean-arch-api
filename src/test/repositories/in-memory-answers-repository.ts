@@ -2,7 +2,7 @@ import { IAnswersRepository } from '@/domain/forum/application/repositories/answ
 import { Answer } from '@/domain/forum/enterprise/entities/answer';
 
 export class InMemoryAnswersRepository implements IAnswersRepository {
-  public items: Answer[] = [];
+  private items: Answer[] = [];
 
   async findById(id: string): Promise<Answer | undefined> {
     return this.items.find(item => item.id.toString() === id);

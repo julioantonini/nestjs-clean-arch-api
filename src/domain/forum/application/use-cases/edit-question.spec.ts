@@ -19,9 +19,14 @@ describe('edit question use case', () => {
 
     inMemoryQuestionsRepository.create(newQuestion);
 
-    await sut.execute({ questionId, authorId: newQuestion.authorId, title: 'new title', content: 'new content' });
+    const { question } = await sut.execute({
+      questionId,
+      authorId: newQuestion.authorId,
+      title: 'new title',
+      content: 'new content',
+    });
 
-    expect(inMemoryQuestionsRepository.items[0]).toMatchObject({ title: 'new title', content: 'new content' });
+    expect(question).toMatchObject({ title: 'new title', content: 'new content' });
   });
 
   it('should not edit a question from another user', async () => {

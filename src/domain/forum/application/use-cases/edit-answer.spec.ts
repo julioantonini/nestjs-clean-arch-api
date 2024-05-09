@@ -19,9 +19,9 @@ describe('edit answer use case', () => {
 
     inMemoryAnswersRepository.create(newAnswer);
 
-    await sut.execute({ answerId, authorId: newAnswer.authorId, content: 'new content' });
+    const { answer } = await sut.execute({ answerId, authorId: newAnswer.authorId, content: 'new content' });
 
-    expect(inMemoryAnswersRepository.items[0]).toMatchObject({ content: 'new content' });
+    expect(answer).toMatchObject({ content: 'new content' });
   });
 
   it('should not edit a answer from another user', async () => {

@@ -1,5 +1,6 @@
 import { UniqueEntityId } from '@/core/entities/unique-entity-id';
 
+import { Question } from '../../enterprise/entities/question';
 import { IQuestionsRepository } from '../repositories/questions-repository';
 
 interface IEditQuestionUseCaseRequest {
@@ -9,7 +10,9 @@ interface IEditQuestionUseCaseRequest {
   content: string;
 }
 
-interface IEditQuestionUseCaseResponse {}
+interface IEditQuestionUseCaseResponse {
+  question: Question;
+}
 
 export class EditQuestionUseCase {
   constructor(private readonly questionRepository: IQuestionsRepository) {}
@@ -35,6 +38,6 @@ export class EditQuestionUseCase {
 
     await this.questionRepository.update(question);
 
-    return {};
+    return { question };
   }
 }

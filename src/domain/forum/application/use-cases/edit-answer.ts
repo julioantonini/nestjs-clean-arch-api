@@ -1,5 +1,6 @@
 import { UniqueEntityId } from '@/core/entities/unique-entity-id';
 
+import { Answer } from '../../enterprise/entities/answer';
 import { IAnswersRepository } from '../repositories/answers-repository';
 
 interface IEditAnswerUseCaseRequest {
@@ -8,7 +9,9 @@ interface IEditAnswerUseCaseRequest {
   content: string;
 }
 
-interface IEditAnswerUseCaseResponse {}
+interface IEditAnswerUseCaseResponse {
+  answer: Answer;
+}
 
 export class EditAnswerUseCase {
   constructor(private readonly answerRepository: IAnswersRepository) {}
@@ -32,6 +35,6 @@ export class EditAnswerUseCase {
 
     await this.answerRepository.update(answer);
 
-    return {};
+    return { answer };
   }
 }
