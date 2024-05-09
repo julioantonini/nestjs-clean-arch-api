@@ -12,6 +12,11 @@ export class InMemoryAnswersRepository implements IAnswersRepository {
     this.items.push(answer);
   }
 
+  async update(answer: Answer): Promise<void> {
+    const currentIdx = this.items.findIndex(item => item.id.toString() === answer.id.toString());
+    this.items[currentIdx] = answer;
+  }
+
   async deleteById(id: string): Promise<void> {
     const currentIdx = this.items.findIndex(item => item.id.toString() === id);
     this.items.splice(currentIdx, 1);
