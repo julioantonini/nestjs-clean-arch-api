@@ -13,6 +13,7 @@ export class makeQuestionMockFactory {
       },
       id,
     );
+
     return question;
   }
 }
