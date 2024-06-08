@@ -37,7 +37,7 @@ describe('Fetch Answer Comments', () => {
       page: 1,
     });
 
-    expect(result.answerComments).toHaveLength(3);
+    expect(result.value?.answerComments).toHaveLength(3);
   });
 
   it('should be able to fetch paginated answer comments', async () => {
@@ -54,6 +54,6 @@ describe('Fetch Answer Comments', () => {
       page: 2,
     });
 
-    expect(result?.answerComments).toHaveLength(2);
+    expect(result.value?.answerComments).toHaveLength(2);
   });
 });

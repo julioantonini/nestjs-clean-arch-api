@@ -17,11 +17,11 @@ describe('fetch recent questions use case', () => {
     await inMemoryQuestionsRepository.create(makeQuestionMockFactory.create({ createdAt: new Date(2024, 0, 18) }));
     await inMemoryQuestionsRepository.create(makeQuestionMockFactory.create({ createdAt: new Date(2024, 0, 23) }));
 
-    const { questions } = await sut.execute({ page: 1 });
+    const questions = await sut.execute({ page: 1 });
 
-    expect(questions[0]).toMatchObject({ createdAt: new Date(2024, 0, 23) });
-    expect(questions[1]).toMatchObject({ createdAt: new Date(2024, 0, 20) });
-    expect(questions[2]).toMatchObject({ createdAt: new Date(2024, 0, 18) });
+    expect(questions.value?.questions[0]).toMatchObject({ createdAt: new Date(2024, 0, 23) });
+    expect(questions.value?.questions[1]).toMatchObject({ createdAt: new Date(2024, 0, 20) });
+    expect(questions.value?.questions[2]).toMatchObject({ createdAt: new Date(2024, 0, 18) });
   });
 
   it('should fetch paginated recent questions', async () => {
@@ -29,8 +29,8 @@ describe('fetch recent questions use case', () => {
       await inMemoryQuestionsRepository.create(makeQuestionMockFactory.create());
     }
 
-    const { questions } = await sut.execute({ page: 2 });
+    const questions = await sut.execute({ page: 2 });
 
-    expect(questions.length).toEqual(2);
+    expect(questions.value?.questions.length).toEqual(2);
   });
 });

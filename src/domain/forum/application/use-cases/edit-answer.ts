@@ -1,7 +1,10 @@
+import { Either, left, right } from '@/core/either';
 import { UniqueEntityId } from '@/core/entities/unique-entity-id';
 
 import { Answer } from '../../enterprise/entities/answer';
 import { IAnswersRepository } from '../repositories/answers-repository';
+import { NotAllowedError } from './errors/not-allowed-error';
+import { ResourceNotFoundError } from './errors/resource-not-found-error';
 
 interface IEditAnswerUseCaseRequest {
   authorId: UniqueEntityId;
@@ -9,9 +12,7 @@ interface IEditAnswerUseCaseRequest {
   content: string;
 }
 
-interface IEditAnswerUseCaseResponse {
-  answer: Answer;
-}
+type IEditAnswerUseCaseResponse = Either<ResourceNotFoundError | NotAllowedError, { answer: Answer }>;
 
 export class EditAnswerUseCase {
   constructor(private readonly answerRepository: IAnswersRepository) {}
@@ -24,17 +25,17 @@ export class EditAnswerUseCase {
     const answer = await this.answerRepository.findById(answerId.toString());
 
     if (!answer) {
-      throw new Error('Answer not found');
+      return left(new ResourceNotFoundError());
     }
 
     if (authorId.toString() !== answer.authorId.toString()) {
-      throw new Error('Not allowed');
+      return left(new NotAllowedError());
     }
 
     answer.content = content;
 
     await this.answerRepository.update(answer);
 
-    return { answer };
+    return right({ answer });
   }
 }

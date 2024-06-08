@@ -5,6 +5,7 @@ import { InMemoryAnswersRepository } from '@/test/repositories/in-memory-answers
 import { InMemoryQuestionsRepository } from '@/test/repositories/in-memory-questions-repository';
 
 import { ChooseQuestionBestAnswerUseCase } from './choose-question-best-answer';
+import { NotAllowedError } from './errors/not-allowed-error';
 
 describe('choose question best answer use case', () => {
   let sut: ChooseQuestionBestAnswerUseCase;
@@ -24,12 +25,12 @@ describe('choose question best answer use case', () => {
     await inMemoryQuestionsRepository.create(questionMock);
     await inMemoryAnswersRepository.create(answerMock);
 
-    const { question } = await sut.execute({
+    await sut.execute({
       answerId: answerMock.id.toString(),
       authorId: questionMock.authorId.toString(),
     });
 
-    expect(question.bestAnswerId).toEqual(answerMock.id);
+    expect(inMemoryQuestionsRepository.items[0].bestAnswerId).toEqual(answerMock.id);
   });
 
   it('should not choose another user question best answer', async () => {
@@ -39,10 +40,12 @@ describe('choose question best answer use case', () => {
     await inMemoryQuestionsRepository.create(questionMock);
     await inMemoryAnswersRepository.create(answerMock);
 
-    const promise = sut.execute({
+    const result = await sut.execute({
       answerId: answerMock.id.toString(),
       authorId: 'author-2',
     });
-    await expect(promise).rejects.toThrow(Error);
+
+    expect(result.isLeft()).toBeTruthy();
+    expect(result.value).toBeInstanceOf(NotAllowedError);
   });
 });

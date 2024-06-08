@@ -3,6 +3,7 @@ import { makeQuestionMockFactory } from '@/test/factories/make-question-mock.fac
 import { InMemoryQuestionsRepository } from '@/test/repositories/in-memory-questions-repository';
 
 import { DeleteQuestionUseCase } from './delete-question';
+import { NotAllowedError } from './errors/not-allowed-error';
 
 describe('delete question use case', () => {
   let sut: DeleteQuestionUseCase;
@@ -30,7 +31,9 @@ describe('delete question use case', () => {
     const newQuestion = makeQuestionMockFactory.create({ authorId: new UniqueEntityId('author-1') }, questionId);
     inMemoryQuestionsRepository.create(newQuestion);
 
-    const promise = sut.execute({ questionId, authorId: new UniqueEntityId('author-2') });
-    await expect(promise).rejects.toThrow(Error);
+    const result = await sut.execute({ questionId, authorId: new UniqueEntityId('author-2') });
+
+    expect(result.isLeft()).toBeTruthy();
+    expect(result.value).toBeInstanceOf(NotAllowedError);
   });
 });

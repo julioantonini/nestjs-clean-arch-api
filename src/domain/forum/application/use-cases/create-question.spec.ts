@@ -13,13 +13,13 @@ describe('Create Question Use Case', () => {
 
   describe('Create Question', () => {
     it('should create a question', async () => {
-      const { question } = await sut.execute({
+      const question = await sut.execute({
         authorId: '2',
         title: 'Question title',
         content: 'question content',
       });
 
-      expect(question.id).toBeTruthy();
+      expect(question.value?.question.id).toBeTruthy();
     });
   });
 });

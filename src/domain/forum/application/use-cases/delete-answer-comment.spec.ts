@@ -3,6 +3,7 @@ import { MakeAnswerCommentMockFactory } from '@/test/factories/make-answer-comme
 import { InMemoryAnswerCommentsRepository } from '@/test/repositories/in-memory-answer-comments-repository';
 
 import { DeleteAnswerCommentUseCase } from './delete-answer-comment';
+import { NotAllowedError } from './errors/not-allowed-error';
 
 let inMemoryAnswerCommentsRepository: InMemoryAnswerCommentsRepository;
 let sut: DeleteAnswerCommentUseCase;
@@ -34,11 +35,12 @@ describe('Delete Answer Comment', () => {
 
     await inMemoryAnswerCommentsRepository.create(answerComment);
 
-    const promise = sut.execute({
+    const result = await sut.execute({
       answerCommentId: answerComment.id.toString(),
       authorId: 'author-2',
     });
 
-    await expect(promise).rejects.toThrow(Error);
+    expect(result.isLeft()).toBeTruthy();
+    expect(result.value).toBeInstanceOf(NotAllowedError);
   });
 });

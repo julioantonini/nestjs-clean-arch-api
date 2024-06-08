@@ -35,7 +35,7 @@ describe('Fetch Question Answers', () => {
       page: 1,
     });
 
-    expect(result?.answers).toHaveLength(3);
+    expect(result.value?.answers).toHaveLength(3);
   });
 
   it('should be able to fetch paginated question answers', async () => {
@@ -52,6 +52,6 @@ describe('Fetch Question Answers', () => {
       page: 2,
     });
 
-    expect(result.answers).toHaveLength(2);
+    expect(result.value?.answers).toHaveLength(2);
   });
 });

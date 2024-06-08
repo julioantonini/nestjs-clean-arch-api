@@ -3,6 +3,7 @@ import { makeQuestionMockFactory } from '@/test/factories/make-question-mock.fac
 import { InMemoryQuestionsRepository } from '@/test/repositories/in-memory-questions-repository';
 
 import { EditQuestionUseCase } from './edit-question';
+import { NotAllowedError } from './errors/not-allowed-error';
 
 describe('edit question use case', () => {
   let sut: EditQuestionUseCase;
@@ -19,14 +20,14 @@ describe('edit question use case', () => {
 
     inMemoryQuestionsRepository.create(newQuestion);
 
-    const { question } = await sut.execute({
+    await sut.execute({
       questionId,
       authorId: newQuestion.authorId,
       title: 'new title',
       content: 'new content',
     });
 
-    expect(question).toMatchObject({ title: 'new title', content: 'new content' });
+    expect(inMemoryQuestionsRepository.items[0]).toMatchObject({ title: 'new title', content: 'new content' });
   });
 
   it('should not edit a question from another user', async () => {
@@ -34,12 +35,14 @@ describe('edit question use case', () => {
     const newQuestion = makeQuestionMockFactory.create({ authorId: new UniqueEntityId('author-1') }, questionId);
     inMemoryQuestionsRepository.create(newQuestion);
 
-    const promise = sut.execute({
+    const result = await sut.execute({
       questionId,
       authorId: new UniqueEntityId('author-2'),
       title: 'new title',
       content: 'new content',
     });
-    await expect(promise).rejects.toThrow(Error);
+
+    expect(result.isLeft()).toBeTruthy();
+    expect(result.value).toBeInstanceOf(NotAllowedError);
   });
 });

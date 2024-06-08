@@ -16,9 +16,12 @@ describe('get question by slut use case', () => {
     const newQuestion = makeQuestionMockFactory.create({ title: 'Test Question' });
 
     inMemoryQuestionsRepository.create(newQuestion);
-    const { question } = await sut.execute({ slug: 'test-question' });
+    const question = await sut.execute({ slug: 'test-question' });
 
-    expect(question.id).toBeTruthy();
-    expect(question.title).toEqual(newQuestion.title);
+    expect(question.value).toMatchObject({
+      question: expect.objectContaining({
+        title: newQuestion.title,
+      }),
+    });
   });
 });

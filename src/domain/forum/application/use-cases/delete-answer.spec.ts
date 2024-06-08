@@ -3,6 +3,7 @@ import { makeAnswerMockFactory } from '@/test/factories/make-answer-mock.factory
 import { InMemoryAnswersRepository } from '@/test/repositories/in-memory-answers-repository';
 
 import { DeleteAnswerUseCase } from './delete-answer';
+import { NotAllowedError } from './errors/not-allowed-error';
 
 describe('delete answer use case', () => {
   let sut: DeleteAnswerUseCase;
@@ -31,7 +32,9 @@ describe('delete answer use case', () => {
     const newAnswer = makeAnswerMockFactory.create({ authorId: new UniqueEntityId('author-1') }, answerId);
     await inMemoryAnswersRepository.create(newAnswer);
 
-    const promise = sut.execute({ answerId, authorId: new UniqueEntityId('author-2') });
-    await expect(promise).rejects.toThrow(Error);
+    const result = await sut.execute({ answerId, authorId: new UniqueEntityId('author-2') });
+
+    expect(result.isLeft()).toBeTruthy();
+    expect(result.value).toBeInstanceOf(NotAllowedError);
   });
 });

@@ -3,7 +3,7 @@ import { IQuestionsRepository } from '@/domain/forum/application/repositories/qu
 import { Question } from '@/domain/forum/enterprise/entities/question';
 
 export class InMemoryQuestionsRepository implements IQuestionsRepository {
-  private items: Question[] = [];
+  items: Question[] = [];
 
   async findById(id: string): Promise<Question | undefined> {
     return this.items.find(item => item.id.toString() === id);
