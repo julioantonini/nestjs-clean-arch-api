@@ -69,10 +69,26 @@
     ],
     "preset": "ts-jest",
     "coverageDirectory": "../coverage",
+    "coverageReporters": [
+      "cobertura",
+      "lcov"
+    ],
     "testEnvironment": "node",
     "moduleNameMapper": {
       "^@/(.*)$": "<rootDir>/src/$1"
-    }
+    },
+    "coveragePathIgnorePatterns": [
+      ".main.ts",
+      ".tracing.ts",
+      ".index.ts",
+      ".module.ts",
+      ".mock.ts",
+      ".repository.ts",
+      ".type.ts",
+      ".config.service.ts",
+      ".instrumentation.ts",
+      ".error.ts"
+    ]
   },
   "packageManager": "yarn@1.22.19+sha1.4ba7fc5c6e704fce2066ecbfb0b0d8976fe62447"
 }
